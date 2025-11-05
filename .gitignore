@@ -1,0 +1,21 @@
+# Node
+**/node_modules/
+**/.pnpm-store/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+**/dist/
+**/build/
+.next/
+.out/
+.turbo/
+.cache/
+coverage/
+
+# Env & tạm
+.env
+.env.*
+.DS_Store
+.vscode/
