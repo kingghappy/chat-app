@@ -52,18 +52,20 @@ export const loginController = async (req, res) => {
     return res.status(400).json({ message: "Missing credentital !!" });
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).lean();
     if (!user) return res.status(404).json({ message: "User not found !!" });
 
     const isUser = await comparePass(password, user.password);
     if (!isUser) return res.status(400).json({ message: "Wrong pass !!" });
 
-    const token = genToken({
+    const payload = {
       sub: user._id.toString(),
       fullName: user.fullName,
       profilePic: user.profilePic,
-    });
+    };
 
+    const token = genToken(payload);
+    console.log("User loginn!!")
     res.cookie("at", token, {
       httpOnly: true,
       secure: false,
@@ -72,7 +74,7 @@ export const loginController = async (req, res) => {
       maxAge: 15 * 60 * 1000,
     });
 
-    res.status(200).json({ message: "Logging success !!", token });
+    res.status(200).json({ ok: true, payload });
   } catch (error) {
     console.log("🚀 auth.controller.js:69 - error:", error);
   }

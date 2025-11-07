@@ -6,6 +6,7 @@ export const getConvController = async (req, res) => {
   const { sub } = req.user;
   const { username } = req.params;
   const { before } = req.query;
+
   try {
     const peer = await User.findOne({ username }).lean();
     if (!peer) return res.status(404).json({ message: "User not found !!" });
@@ -61,5 +62,20 @@ export const getConvController = async (req, res) => {
   } catch (error) {
     console.error("conversation.controller.js:getConv error:", error);
     return res.status(500).json({ message: "Internal error" });
+  }
+};
+
+export const getAllConvController = async (req, res) => {
+  // const { sub } = req.user;
+console.log("hihi")
+  try {
+    // const convs = await Conversation.find()
+    const users = await User.find()
+      .select("-_id username fullName profilePic")
+      .lean();
+
+    res.json({ ok: true, users });
+  } catch (error) {
+    console.log("🚀 conversation.controller.js:80 - error:", error);
   }
 };

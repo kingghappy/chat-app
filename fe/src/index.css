@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+.app-container {
+  /* Thay 'url(...)' bằng đường dẫn đến ảnh nền của bạn */
+  background-image: url('.//assets/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Giữ nền cố định khi cuộn */
+  min-height: 100vh;
+}

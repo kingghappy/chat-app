@@ -4,6 +4,8 @@ import authenticate from '../middlewares/authenticate.js';
 
 const r = Router()
 
+r.get('/all', cct.getAllConvController)
+
 r.get('/:username',authenticate, cct.getConvController)
 
 export default r
