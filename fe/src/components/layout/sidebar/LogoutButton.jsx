@@ -1,10 +1,14 @@
-import React from 'react';
-import { IoLogOutOutline } from 'react-icons/io5'; // Import icon logout
+import React from "react";
+import { IoLogOutOutline } from "react-icons/io5"; // Import icon logout
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../store/context/AuthContext";
 
 const LogoutButton = () => {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
   const handleLogout = () => {
-    // TODO: Thêm logic đăng xuất (xóa token, gọi API,...)
-    console.log('Logging out...');
+    setAuth(null);
+    navigate("/login");
   };
 
   return (

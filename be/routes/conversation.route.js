@@ -1,11 +1,11 @@
-import { Router } from 'express';
-import * as cct from '../controllers/conversation.controller.js'
-import authenticate from '../middlewares/authenticate.js';
+import { Router } from "express";
+import * as cct from "../controllers/conversation.controller.js";
+import authenticate from "../middlewares/authenticate.js";
 
-const r = Router()
+const r = Router();
 
-r.get('/all', cct.getAllConvController)
+r.get("/all", authenticate, cct.getAllConvController);
 
-r.get('/:username',authenticate, cct.getConvController)
+r.get("/:username", authenticate, cct.getConvController);
 
-export default r
+export default r;

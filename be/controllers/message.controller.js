@@ -12,7 +12,7 @@ export const sendMessageController = async (req, res) => {
       .lean();
     if (!pairKey)
       return res.status(404).json({ message: "Conversation not found !!" });
-    
+
     const [, recipient] = pairKey.split(":");
 
     const newMessage = new Message({
@@ -23,7 +23,7 @@ export const sendMessageController = async (req, res) => {
     });
     await newMessage.save();
 
-    res.json({ oke: true, content });
+    res.json({ oke: true });
   } catch (error) {
     console.log("🚀 message.controller.js:28 - error:", error);
   }

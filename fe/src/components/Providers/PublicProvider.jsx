@@ -4,6 +4,7 @@ import { useAuth } from '../../store/context/AuthContext';
 const PublicProvider = ({children}) => {
     const { user } = useAuth();
 
+
   if (user) {
     // Nếu không có user, điều hướng về trang login
     return <Navigate to="/" replace />; 

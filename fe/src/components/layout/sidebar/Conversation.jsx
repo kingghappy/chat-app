@@ -1,12 +1,18 @@
 import React from "react";
 import { useConvs } from "../../../store/zustand/auth.store";
+import useGetMessage from "../../../hooks/useGetMessage";
 
 const Conversation = ({ conv, isOnline, actionIcon }) => {
   const { fullName, profilePic, username } = conv;
-
+  const { getMessage } = useGetMessage();
   const setSelectedConv = useConvs((s) => s.setSelectedConv);
   const selectedConv = useConvs((s) => s.selectedConv);
-  const isSelected = username === selectedConv;
+  const isSelected = username === selectedConv?.username;
+
+  const handleClick = async () => {
+    setSelectedConv(conv);
+    await getMessage(username);
+  };
 
   return (
     <div
@@ -15,7 +21,7 @@ const Conversation = ({ conv, isOnline, actionIcon }) => {
         transition duration-200
         ${isSelected ? "bg-blue-600/50" : "hover:bg-white/10"}
       `}
-      onClick={() => setSelectedConv(username)}
+      onClick={handleClick}
     >
       {/* Phần Avatar và Tên */}
       <div className="flex items-center space-x-3">

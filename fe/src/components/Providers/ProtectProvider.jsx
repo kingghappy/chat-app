@@ -1,16 +1,13 @@
-// src/components/auth/ProtectedPrivder.js
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../store/context/AuthContext';
 
 const ProtectedProvider = ({ children }) => {
-  const { user } = useAuth();
-  if (!user) {
-    // Nếu không có user, điều hướng về trang login
-    return <Navigate to="/login" replace />; 
-    // `replace` giúp user không thể "back" lại trang private sau khi bị redirect
+  const { user } = useAuth(); // <-- Lấy cả `user` từ context
+ 
+  if (!user ) {
+    return <Navigate to="/login" replace/>;
   }
-
-  // Nếu có user, render component con (children)
+  
   return children;
 };
 

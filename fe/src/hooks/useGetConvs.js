@@ -21,7 +21,7 @@ const useGetConvs = () => {
       toast.error(error.message);
       throw new Error("error", error.message);
     }
-  }, [setConvs])
+  }, [setConvs]);
   return { getConvs };
 };
 

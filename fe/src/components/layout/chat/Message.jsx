@@ -3,7 +3,14 @@ import React from 'react';
 const Message = ({ content, isFromSelf, timestamp }) => {
   // Quyết định vị trí bong bóng chat
   const alignment = isFromSelf ? 'justify-end' : 'justify-start';
-  
+  const dateObject = new Date(timestamp); 
+
+    // 2. Format nó thành một chuỗi (string) dễ đọc
+    // Ví dụ: chỉ hiển thị Giờ:Phút
+    const displayTime = dateObject.toLocaleTimeString('vi-VN', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
   // Quyết định màu sắc bong bóng chat
   const bubbleColor = isFromSelf
     ? 'bg-blue-600 text-white' // Tin nhắn của mình
@@ -25,7 +32,7 @@ const Message = ({ content, isFromSelf, timestamp }) => {
           mt-1 
           ${isFromSelf ? 'text-right' : 'text-left'}
         `}>
-          {timestamp}
+          {displayTime}
         </span>
       </div>
     </div>

@@ -33,7 +33,7 @@ export const getConvController = async (req, res) => {
 
     if (wasCreated) {
       // mới tạo => chắc chắn chưa có message
-      return res.json({ convId: String(convDoc._id), messages: [] });
+      return res.json({ convId: String(convDoc._id), messages: [], recipient: peer._id });
     }
 
     const match = {
@@ -49,15 +49,17 @@ export const getConvController = async (req, res) => {
     // đã tồn tại => lấy messages (nên phân trang sau này)
     const messages = await Message.find(
       match,
-      { content: 1, sender: 1, recipient: 1, createdAt: 1, _id: 0 } // projection rõ ràng
+      { content: 1, sender: 1, recipient: 1, createdAt: 1 } // projection rõ ràng
     )
       .sort({ _id: -1 })
       .limit(20)
       .lean();
 
     return res.json({
+      ok: true,
       convId: String(convDoc._id),
       messages: messages.reverse(),
+      recipient: peer._id
     });
   } catch (error) {
     console.error("conversation.controller.js:getConv error:", error);
@@ -66,13 +68,14 @@ export const getConvController = async (req, res) => {
 };
 
 export const getAllConvController = async (req, res) => {
-  // const { sub } = req.user;
-console.log("hihi")
+  const { sub } = req.user;
+  
   try {
     // const convs = await Conversation.find()
-    const users = await User.find()
-      .select("-_id username fullName profilePic")
-      .lean();
+    const users = await User.find(
+      { _id: { $ne: sub } },
+      { username: 1, fullName: 1, profilePic: 1, _id: 0 }
+    ).lean();
 
     res.json({ ok: true, users });
   } catch (error) {

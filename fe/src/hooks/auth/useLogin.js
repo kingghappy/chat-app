@@ -1,12 +1,12 @@
 import { toast } from "sonner";
 
 import { BASE_SERVER } from "../../utils/config";
-import { useAuth } from "../../store/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/context/AuthContext";
 
 const useLogin = () => {
-  const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
   const login = async (username, password) => {
     try {
       const res = await fetch(`${BASE_SERVER}/auth/login`, {
@@ -18,10 +18,9 @@ const useLogin = () => {
       });
 
       if (!res.ok) throw new Error("error");
-
       const { payload } = await res.json();
-      setAuth(payload);
       toast.success("Login success, redirect ...");
+      setAuth(payload);
       navigate("/");
     } catch (error) {
       toast.error(error.message);

@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
-import { IoSend, IoAttach, IoMic } from 'react-icons/io5';
+import React, { useState } from "react";
+import { IoSend, IoAttach, IoMic } from "react-icons/io5";
+import { useMessage } from "../../../store/zustand/auth.store";
+import { useAuth } from "./../../../store/context/AuthContext";
+import useSendMessage from "../../../hooks/useSendMessage";
 
 const MessageInput = () => {
-  const [message, setMessage] = useState('');
+  const currMessage = useMessage((s) => s.currMessage);
+  const addMessage = useMessage((s) => s.addMessage);
+  const recipient = useMessage((s) => s.recipient);
+
+  const { user } = useAuth();
+  const { sendMessage } = useSendMessage();
+
+  const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (message.trim() === '') return; // Không gửi tin nhắn rỗng
+    if (message.trim() === "") return;
+    const messageWrap = {
+      _id: Math.random().toString(36).slice(2),
+      content: message,
+      sender: user.sub,
+      recipient,
+      createdAt: new Date(),
+    };
 
-    // TODO: Thêm logic gửi tin nhắn (gọi API, cập nhật state)
-    console.log('Sending message:', message);
-    setMessage(''); // Xóa nội dung input sau khi gửi
+    addMessage(messageWrap);
+    sendMessage(currMessage, message);
+    setMessage("");
   };
 
   return (
@@ -59,7 +76,7 @@ const MessageInput = () => {
             transition duration-200
             disabled:opacity-50
           "
-          disabled={message.trim() === ''} // Vô hiệu hóa nếu không có text
+          disabled={message.trim() === ""} // Vô hiệu hóa nếu không có text
         >
           <IoSend size={20} />
         </button>

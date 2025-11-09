@@ -65,7 +65,7 @@ export const loginController = async (req, res) => {
     };
 
     const token = genToken(payload);
-    console.log("User loginn!!")
+    
     res.cookie("at", token, {
       httpOnly: true,
       secure: false,
