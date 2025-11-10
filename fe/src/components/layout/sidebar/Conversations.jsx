@@ -11,10 +11,12 @@ import {
 import Conversation from "./Conversation";
 import { useConvs } from "../../../store/zustand/auth.store";
 import useGetConvs from "./../../../hooks/useGetConvs";
+import { useSocket } from "../../../store/context/SocketContext";
 
 const Conversations = () => {
   const convs = useConvs((s) => s.convs);
   const { getConvs } = useGetConvs();
+  const { onlineUsers } = useSocket();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,16 +36,20 @@ const Conversations = () => {
 
   return (
     <div className="flex flex-col space-y-2">
-      {convs.map((convo, index) => (
-        <Conversation
-          key={convo.username}
-          conv={convo}
-          isOnline={true}
-          notificationCount={convo.notification}
-          // Lấy 1 icon ngẫu nhiên từ list action (chỉ để demo)
-          actionIcon={actions[index % actions.length]}
-        />
-      ))}
+      {convs.map((convo, index) => {
+        const isOnline = onlineUsers.includes(convo._id);
+
+        return (
+          <Conversation
+            key={convo._id}
+            conv={convo}
+            isOnline={isOnline}
+            notificationCount={convo.notification}
+            
+            actionIcon={actions[index % actions.length]}
+          />
+        );
+      })}
     </div>
   );
 };

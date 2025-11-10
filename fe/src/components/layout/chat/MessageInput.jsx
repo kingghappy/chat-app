@@ -1,33 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { IoSend, IoAttach, IoMic } from "react-icons/io5";
 import { useMessage } from "../../../store/zustand/auth.store";
 import { useAuth } from "./../../../store/context/AuthContext";
-import useSendMessage from "../../../hooks/useSendMessage";
+import { useSocket } from "../../../store/context/SocketContext";
 
 const MessageInput = () => {
   const currMessage = useMessage((s) => s.currMessage);
-  const addMessage = useMessage((s) => s.addMessage);
-  const recipient = useMessage((s) => s.recipient);
 
   const { user } = useAuth();
-  const { sendMessage } = useSendMessage();
+  const { socket } = useSocket();
 
   const [message, setMessage] = useState("");
+  const typingTimeoutRef = useRef(null);
+
+  const handleTyping = (e) => {
+    setMessage(e.target.value);
+
+    if (!socket || !currMessage) return;
+
+    // 1. Gửi sự kiện 'typing: true' ngay lập tức
+    // Chỉ gửi nếu chưa gửi (quản lý bởi timeout)
+    if (!typingTimeoutRef.current) {
+      socket.emit("typing", { roomId: currMessage, isTyping: true });
+    }
+
+    // 2. Hủy bỏ timeout cũ (nếu có)
+    // Kỹ thuật này gọi là "debouncing"
+    clearTimeout(typingTimeoutRef.current);
+
+    // 3. Đặt 1 timeout mới. Nếu sau 2 giây mà user không gõ
+    //    gì thêm, chúng ta sẽ gửi 'typing: false'
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit("typing", { roomId: currMessage, isTyping: false });
+      typingTimeoutRef.current = null; // Reset ref
+    }, 2000); // 2 giây
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim() === "") return;
-    const messageWrap = {
-      _id: Math.random().toString(36).slice(2),
-      content: message,
-      sender: user.sub,
-      recipient,
-      createdAt: new Date(),
-    };
+    // const messageWrap = {
+    //   _id: Math.random().toString(36).slice(2),
+    //   content: message,
+    //   sender: user.sub,j
+    //   recipient,
+    //   createdAt: new Date(),
+    // };
 
-    addMessage(messageWrap);
-    sendMessage(currMessage, message);
+    socket.emit("sendMessage", {
+      content: message,
+      roomId: currMessage,
+      sender: user.sub,
+    });
+
+    // sendMessage(currMessage, message);
     setMessage("");
+
+    if (socket && typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = null;
+      socket.emit("typing", { roomId: currMessage, isTyping: false });
+    }
   };
 
   return (
@@ -45,7 +78,7 @@ const MessageInput = () => {
         <input
           type="text"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={handleTyping}
           placeholder="Type a message..."
           className="
             flex-1 

@@ -74,7 +74,7 @@ export const getAllConvController = async (req, res) => {
     // const convs = await Conversation.find()
     const users = await User.find(
       { _id: { $ne: sub } },
-      { username: 1, fullName: 1, profilePic: 1, _id: 0 }
+      { username: 1, fullName: 1, profilePic: 1 }
     ).lean();
 
     res.json({ ok: true, users });

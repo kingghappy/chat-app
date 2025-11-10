@@ -4,6 +4,6 @@ import authenticate from "./../middlewares/authenticate.js";
 
 const r = Router();
 
-r.post("/send/:convid", authenticate, mct.sendMessageController);
+// r.post("/send/:convid", authenticate, mct.sendMessageController);
 
 export default r;

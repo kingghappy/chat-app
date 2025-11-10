@@ -7,7 +7,6 @@ import { useConvs } from '../../../store/zustand/auth.store';
 const ChatContainer = () => {
   const selectedConv = useConvs((s) => s.selectedConv)
   
-  
   return (
     // Component cha đã có: flex-1 flex flex-col border-l border-white/20
     <div className="flex-1 flex flex-col">
