@@ -22,7 +22,8 @@ const server = http.createServer(app);
 
 // --- 2. Cấu hình CORS cho Express (API) ---
 const whitelist = [
-  'http://localhost:5173'
+  'https://chat.kinghappy.id.vn/',
+  "chat-app-teal-one-38.vercel.app"
 ];
 const corsOptions = {
   origin: function (origin, callback) {

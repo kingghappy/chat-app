@@ -65,15 +65,14 @@ export const loginController = async (req, res) => {
     };
 
     const token = genToken(payload);
-    
+
     res.cookie("at", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       path: "/",
-      maxAge: 15 * 60 * 1000,
+      maxAge: 15 * 60 * 1000, // 15 phút
     });
-
     res.status(200).json({ ok: true, payload });
   } catch (error) {
     console.log("🚀 auth.controller.js:69 - error:", error);

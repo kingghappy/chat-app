@@ -1,6 +1,7 @@
 import  { useEffect, useState, createContext} from 'react'
 import io from "socket.io-client";
 
+import { BASE_SERVER } from '../../utils/config';
 import { useAuth } from './../../store/context/AuthContext';
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -20,7 +21,7 @@ export const SocketProvider = ({ children }) => {
     if (user) {
       // Khởi tạo kết nối socket
       // Thay đổi URL thành URL backend của bạn
-      const newSocket = io("http://localhost:3000", { 
+      const newSocket = io(BASE_SERVER, { 
         // Gửi `userId` lên server qua 'query'
         // Server sẽ lấy nó bằng `socket.handshake.query.userId`
         query: {

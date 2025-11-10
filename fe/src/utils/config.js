@@ -1,1 +1,1 @@
-export const BASE_SERVER = "/api"
+export const BASE_SERVER = "https://chat-app-4qz1.onrender.com"
