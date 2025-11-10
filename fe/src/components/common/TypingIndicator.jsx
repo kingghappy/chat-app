@@ -1,5 +1,5 @@
 const TypingIndicator = () => (
-  <div className="flex items-center space-x-1 p-2">
+  <div className="flex items-center space-x-1 p-4 rounded-2xl bg-gray-700">
     {/* Các chấm, với độ trễ animation khác nhau để tạo hiệu ứng lượn sóng */}
     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>

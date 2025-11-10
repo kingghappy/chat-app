@@ -28,8 +28,7 @@ const MessageInput = () => {
     // Kỹ thuật này gọi là "debouncing"
     clearTimeout(typingTimeoutRef.current);
 
-    // 3. Đặt 1 timeout mới. Nếu sau 2 giây mà user không gõ
-    //    gì thêm, chúng ta sẽ gửi 'typing: false'
+    
     typingTimeoutRef.current = setTimeout(() => {
       socket.emit("typing", { roomId: currMessage, isTyping: false });
       typingTimeoutRef.current = null; // Reset ref
@@ -39,21 +38,13 @@ const MessageInput = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim() === "") return;
-    // const messageWrap = {
-    //   _id: Math.random().toString(36).slice(2),
-    //   content: message,
-    //   sender: user.sub,j
-    //   recipient,
-    //   createdAt: new Date(),
-    // };
-
+    
     socket.emit("sendMessage", {
       content: message,
       roomId: currMessage,
       sender: user.sub,
     });
-
-    // sendMessage(currMessage, message);
+    
     setMessage("");
 
     if (socket && typingTimeoutRef.current) {
