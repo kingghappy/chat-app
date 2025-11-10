@@ -2,9 +2,13 @@
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "Fi123581321";
+console.log("🚀 authenticate.js:5 - JWT_SECRET:", JWT_SECRET);
+
 
 const authenticate = async (req, res, next) => {
   const { at } = req.cookies;
+console.log("🚀 authenticate.js:8 - at:", at);
+
 
   if (!at) {
     return res.status(401).json({ message: "Unauthenticated" });
