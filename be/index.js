@@ -52,6 +52,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
     credentials: true,
   },
+   path: '/socket.io',
 });
 
 // --- 5. Đăng ký Middleware "Tiêm" (Inject) `io` ---
