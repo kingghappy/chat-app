@@ -1,1 +1,1 @@
-export const BASE_SERVER = "https://chat-app-4qz1.onrender.com"
+export const BASE_SERVER = import.meta.env.VITE_API_BASE_URL
