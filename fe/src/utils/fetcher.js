@@ -5,7 +5,7 @@ const BASE = import.meta.env.VITE_API_BASE_URL ?? '/api';
 export async function fetchJSON(path, opts) {
   const url = path.startsWith('http') ? path : `${BASE}${path}`;
 
-  const headers = new Headers(opts.headers || {});
+  const headers = new Headers(opts?.headers || {});
   if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
 
   const init = {
