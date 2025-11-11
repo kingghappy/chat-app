@@ -73,7 +73,7 @@ export const loginController = async (req, res) => {
     res.cookie("at", token, {
       httpOnly: true,
       secure: true, // luôn bật vì HTTPS
-      sameSite: "lax", // CHÍNH XÁC cho same-site subdomain
+      sameSite: "none", // CHÍNH XÁC cho same-site subdomain
       domain: process.env.DOMAIN, // cho phép dùng chung giữa chat. và be.
       path: "/", // cookie áp dụng cho toàn bộ domain
       maxAge: 15 * 60 * 1000, // 15 phút

@@ -37,8 +37,8 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200,
 };
-app.use(cors(corsOptions)); // Áp dụng CORS cho API
 app.set('trust proxy', 1);
+app.use(cors(corsOptions)); // Áp dụng CORS cho API
 
 // --- 3. Cấu hình Middlewares cơ bản ---
 app.use(cookieParser());
