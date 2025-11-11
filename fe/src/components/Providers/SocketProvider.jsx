@@ -6,7 +6,6 @@ import { useAuth } from "../../store/context/AuthContext";
 // eslint-disable-next-line react-refresh/only-export-components
 export const SocketContext = createContext(null);
 
-const SOCKET_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
@@ -16,7 +15,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!user) { socket?.close(); setSocket(null); setOnlineUsers([]); return; }
 
-    const s = io(SOCKET_URL, {
+    const s = io("https://be.kinghappy.id.vn", {
       withCredentials: true,        // ưu tiên WS, tránh polling bị CDN can thiệp
       path: "/socket.io",           // default, ghi rõ cho chắc
       query: { userId: user.sub },
