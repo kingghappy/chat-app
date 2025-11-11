@@ -9,12 +9,12 @@ export async function fetchJSON(path, opts) {
   if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
 
   const init = {
-    method: opts.method || 'GET',
+    method: opts?.method || 'GET',
     credentials: 'include',          // 🔴 BẮT BUỘC để gửi cookie cross-site
     ...opts,
     headers,
     // nếu có opts.json thì stringify
-    body: opts.json !== undefined ? JSON.stringify(opts.json) : opts.body,
+    body: opts?.json !== undefined ? JSON.stringify(opts?.json) : opts?.body,
   };
 
   const res = await fetch(url, init);
