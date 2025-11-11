@@ -7,7 +7,7 @@ import { useAuth } from "./../../store/context/AuthContext";
 const useSignup = () => {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
-  const singnup = async (formData) => {
+  const signup = async (formData) => {
     try {
       const res = await fetch(`${BASE_SERVER}/auth/signup`, {
         method: "POST",
@@ -30,7 +30,7 @@ const useSignup = () => {
   };
 
   return {
-    singnup,
+    signup,
   };
 };
 

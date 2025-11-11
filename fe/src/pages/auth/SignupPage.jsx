@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Giả sử bạn dùng React Router
-import useSignup from '../../hooks/auth/useSignup';
+import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Giả sử bạn dùng React Router
+import useSignup from "../../hooks/auth/useSignup";
 
 const Signup = () => {
-
-  const {signup} = useSignup()
+  const { signup } = useSignup();
 
   const [formData, setFormData] = useState({
-    fullName: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-    gender: '', // 'male' hoặc 'female'b
+    fullName: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    gender: "", // 'male' hoặc 'female'b
   });
 
-  const handleChange = async(e) => {
+  const handleChange = async (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -22,14 +21,14 @@ const Signup = () => {
     setFormData({ ...formData, gender });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert('Mật khẩu không khớp!');
+      alert("Mật khẩu không khớp!");
       return;
     }
-    
-    await signup(formData)
+
+    await signup(formData);
   };
 
   return (
@@ -38,7 +37,7 @@ const Signup = () => {
         <h2 className="text-3xl font-bold text-center text-white">
           Tạo tài khoản
         </h2>
-        
+
         <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Full Name */}
           <div>
@@ -126,34 +125,34 @@ const Signup = () => {
             <div className="flex items-center mt-2 space-x-4">
               <label
                 className={`flex items-center px-4 py-2 rounded-lg cursor-pointer transition-all ${
-                  formData.gender === 'male'
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'bg-white/20 text-gray-200 hover:bg-white/30'
+                  formData.gender === "male"
+                    ? "bg-blue-600 text-white shadow-lg"
+                    : "bg-white/20 text-gray-200 hover:bg-white/30"
                 }`}
               >
                 <input
                   type="radio"
                   name="gender"
                   value="male"
-                  checked={formData.gender === 'male'}
-                  onChange={() => handleGenderChange('male')}
+                  checked={formData.gender === "male"}
+                  onChange={() => handleGenderChange("male")}
                   className="hidden" // Ẩn radio button gốc
                 />
                 Nam
               </label>
               <label
                 className={`flex items-center px-4 py-2 rounded-lg cursor-pointer transition-all ${
-                  formData.gender === 'female'
-                    ? 'bg-pink-600 text-white shadow-lg'
-                    : 'bg-white/20 text-gray-200 hover:bg-white/30'
+                  formData.gender === "female"
+                    ? "bg-pink-600 text-white shadow-lg"
+                    : "bg-white/20 text-gray-200 hover:bg-white/30"
                 }`}
               >
                 <input
                   type="radio"
                   name="gender"
                   value="female"
-                  checked={formData.gender === 'female'}
-                  onChange={() => handleGenderChange('female')}
+                  checked={formData.gender === "female"}
+                  onChange={() => handleGenderChange("female")}
                   className="hidden" // Ẩn radio button gốc
                 />
                 Nữ
@@ -172,7 +171,7 @@ const Signup = () => {
 
         {/* Link to Login */}
         <p className="text-sm text-center text-gray-300">
-          Đã có tài khoản?{' '}
+          Đã có tài khoản?{" "}
           <Link
             to="/login" // Đường dẫn tới trang Đăng nhập
             className="font-medium text-blue-400 hover:text-blue-300"
