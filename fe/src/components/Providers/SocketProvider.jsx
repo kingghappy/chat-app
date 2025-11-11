@@ -17,8 +17,7 @@ export const SocketProvider = ({ children }) => {
     if (!user) { socket?.close(); setSocket(null); setOnlineUsers([]); return; }
 
     const s = io(SOCKET_URL, {
-      withCredentials: true,        // <- quan trọng
-      transports: ["websocket"],    // ưu tiên WS, tránh polling bị CDN can thiệp
+      withCredentials: true,        // ưu tiên WS, tránh polling bị CDN can thiệp
       path: "/socket.io",           // default, ghi rõ cho chắc
       query: { userId: user.sub },
       reconnectionAttempts: 5,
