@@ -1,6 +1,10 @@
+import { config } from 'dotenv';
+
 import User from "../models/user.js";
 import { comparePass, hashPassword } from "../utils/hashPassword.js";
 import genToken from "./../utils/generateToken.js";
+
+config()
 
 export const singupController = async (req, res) => {
   const { username, fullName, password, confirmPassword, gender } = req.body;
@@ -68,9 +72,10 @@ export const loginController = async (req, res) => {
 
     res.cookie("at", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: "/",
+      secure: true, // luôn bật vì HTTPS
+      sameSite: "lax", // CHÍNH XÁC cho same-site subdomain
+      domain: process.env.DOMAIN, // cho phép dùng chung giữa chat. và be.
+      path: "/", // cookie áp dụng cho toàn bộ domain
       maxAge: 15 * 60 * 1000, // 15 phút
     });
     res.status(200).json({ ok: true, payload });
