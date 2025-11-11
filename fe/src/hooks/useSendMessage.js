@@ -1,21 +1,16 @@
 import { toast } from "sonner";
-import { BASE_SERVER } from "../utils/config";
+import { fetchJSON } from "../utils/fetcher";
 
 const useSendMessage = () => {
   const sendMessage = async (convid, content) => {
     try {
-      const res = await fetch(`${BASE_SERVER}/message/send/${convid}`, {
+      await fetchJSON(`/message/send/${convid}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ content }),
+        json: { content },
       });
-
-      if (!res.ok) throw new Error("error");
-
-    } catch (error) {
-      toast.error(error.message);
-      throw new Error("error", error.message);
+    } catch (err) {
+      toast.error(err?.message || "error");
+      throw err;
     }
   };
   return { sendMessage };

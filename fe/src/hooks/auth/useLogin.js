@@ -1,30 +1,24 @@
 import { toast } from "sonner";
-
-import { BASE_SERVER } from "../../utils/config";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../store/context/AuthContext";
+import { fetchJSON } from "../../utils/fetcher";
 
 const useLogin = () => {
   const navigate = useNavigate();
   const { setAuth } = useAuth();
+
   const login = async (username, password) => {
     try {
-      const res = await fetch(`${BASE_SERVER}/auth/login`, {
+      const { payload } = await fetchJSON("/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json", // *Bắt buộc: Báo cho server biết ta gửi JSON
-        },
-        body: JSON.stringify({ username, password }),
+        json: { username, password },
       });
-
-      if (!res.ok) throw new Error("error");
-      const { payload } = await res.json();
       toast.success("Login success, redirect ...");
       setAuth(payload);
       navigate("/");
-    } catch (error) {
-      toast.error(error.message);
-      throw new Error("error", error.message);
+    } catch (err) {
+      toast.error(err?.message || "error");
+      throw err;
     }
   };
 
